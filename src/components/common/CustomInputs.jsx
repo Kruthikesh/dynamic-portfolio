@@ -1,6 +1,5 @@
 import React from "react";
-
-export const CustomSimpleInput = ({
+export const CustomSimpleInput = React.forwardRef(({
   label = "",
   name = "",
   value = "",
@@ -8,7 +7,7 @@ export const CustomSimpleInput = ({
   onChange = () => {},
   required = true,
   ...props
-}) => (
+},ref) => (
   <div className="form-group">
     <label htmlFor={name}>{label}</label>
     <div className="input-group">
@@ -19,13 +18,13 @@ export const CustomSimpleInput = ({
         value={value}
         onChange={onChange}
         required={required}
+        ref={ref}
         {...props}
       />
     </div>
   </div>
-);
-
-export const CustomTeaxtArea = ({
+));
+export const CustomTeaxtArea =React.forwardRef( ({
   label = "",
   name = "",
   value = "",
@@ -35,7 +34,7 @@ export const CustomTeaxtArea = ({
   rows = "3",
   helper = "",
   ...props
-}) => (
+},ref) => (
   <div className="form-group">
     <label htmlFor={name}>{label}</label>
     <div className="input-group">
@@ -46,13 +45,14 @@ export const CustomTeaxtArea = ({
         value={value}
         onChange={onChange}
         required={required}
+        ref={ref}
         {...props}
         rows={rows}
       />
     </div>
     <div className="form-text">{helper}</div>
   </div>
-);
+));
 
 export const CustomInputAlt = ({
   label = "",

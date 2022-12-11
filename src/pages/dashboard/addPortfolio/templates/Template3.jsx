@@ -7,8 +7,26 @@ import {
 import SocialLinks from "../components/SocialLinks";
 import { apiCommon } from "../../../../services/models/CommonModel";
 import { useNavigate } from "react-router-dom";
+import * as yup from 'yup';
+import {useForm} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
+
+const schema=yup.object().shape(
+    {
+        // name:yup.string().required("gregergre"),
+        headerTitle:yup.string().max(5).required(),
+        about:yup.string().required(),
+        behanceRssLink:yup.string().required(),
+        mediumRssLink:yup.string().required(),
+
+    }
+);
 
 const Template3 = () => {
+  const {register,handleSubmit,formState:{errors}}=useForm({
+    resolver:yupResolver(schema),
+  });
+  
   const [data, setData] = useState({
     name: "",
     headerTitle: "",
@@ -19,7 +37,8 @@ const Template3 = () => {
     fontfamily: "inter",
   });
   const handleInputs = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
+    
+    setData({...data, [e.target.name]: e.target.value });
   };
   const [socialLinks, setSocialLinks] = useState([]);
 
@@ -60,18 +79,22 @@ const Template3 = () => {
       <form onSubmit={onSubmit}>
         <CustomSimpleInput
           label="Name"
-          name="name"
+          // name="name"
           value={data.name}
           placeholder="John Doe"
           onChange={handleInputs}
+          {...register("name")}
         />
+        <p>{errors.name?.message}</p>
         <CustomSimpleInput
           label="Header"
           name="headerTitle"
           value={data.headerTitle}
           placeholder="Full stack developer"
           onChange={handleInputs}
+          {...register("headerTitle")}
         />
+        <p>{errors.headerTitle?.message}</p>
         <CustomTeaxtArea
           label="About"
           name="about"
@@ -80,7 +103,9 @@ const Template3 = () => {
           onChange={handleInputs}
           type="textarea"
           rows="5"
+          {...register("about")}
         />
+        <p>{errors.about?.message}</p>
         <SocialLinks
           socialLinks={socialLinks}
           setSocialLinks={setSocialLinks}
@@ -91,14 +116,18 @@ const Template3 = () => {
           value={data.behanceRssLink}
           placeholder="ex: shelcia"
           onChange={handleInputs}
+          {...register("behanceRssLink")}
         />
+        <p>{errors.behanceRssLink?.message}</p>
         <CustomSimpleInput
           label="Medium Username (without '@')"
           name="mediumRssLink"
           value={data.mediumRssLink}
           placeholder="ex: shelcia"
           onChange={handleInputs}
+          {...register("mediumRssLink")}
         />
+        <p>{errors.mediumRssLink?.message}</p>
         <div className="text-right mt-5 mb-4">
           <button type="submit" className="btn btn-primary">
             Submit
